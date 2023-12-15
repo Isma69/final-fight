@@ -56,7 +56,7 @@ const initialState = {
       pvMax: 120,
       mana: 25,
       manaMax: 25,
-      id: 1,
+      id: 5,
       status: "alive",
       avatar: "/assets/shikamaru.gif",
       specialJutsu: "Shadow Possession",
@@ -68,7 +68,7 @@ const initialState = {
       pvMax: 140,
       mana: 20,
       manaMax: 20,
-      id: 2,
+      id: 6,
       status: "alive",
       avatar: "/assets/choji.gif",
       specialJutsu: "Human Boulder",
@@ -80,7 +80,7 @@ const initialState = {
       pvMax: 100,
       mana: 30,
       manaMax: 30,
-      id: 3,
+      id: 7,
       status: "alive",
       avatar: "/assets/ino.gif",
       specialJutsu: "Mind Transfer",
@@ -92,7 +92,7 @@ const initialState = {
       pvMax: 100,
       mana: 30,
       manaMax: 30,
-      id: 4,
+      id: 8,
       status: "alive",
       avatar: "/assets/asuma.gif",
       specialJutsu: "Flying Swallow",
@@ -104,7 +104,7 @@ const initialState = {
       pvMax: 100,
       mana: 30,
       manaMax: 30,
-      id: 1,
+      id: 9,
       status: "alive",
       avatar: "/assets/lee.gif",
       specialJutsu: "Primary Lotus",
@@ -116,7 +116,7 @@ const initialState = {
       pvMax: 100,
       mana: 30,
       manaMax: 30,
-      id: 2,
+      id: 10,
       status: "alive",
       avatar: "/assets/neji.gif",
       specialJutsu: "Eight Trigrams",
@@ -128,7 +128,7 @@ const initialState = {
       pvMax: 100,
       mana: 30,
       manaMax: 30,
-      id: 3,
+      id: 11,
       status: "alive",
       avatar: "/assets/tenten.gif",
       specialJutsu: "Twin Rising Dragons",
@@ -140,7 +140,7 @@ const initialState = {
       pvMax: 100,
       mana: 30,
       manaMax: 30,
-      id: 4,
+      id: 12,
       status: "alive",
       avatar: "/assets/gai.gif",
       specialJutsu: "Night Guy",
@@ -151,8 +151,8 @@ const initialState = {
     {
       id: 1,
       name: "Madara Uchiwa",
-      hp: 700,
-      maxHp: 700,
+      hp: 50,
+      maxHp: 50,
       status: "alive",
       rage: 0,
       rageMax: 100,
@@ -161,6 +161,9 @@ const initialState = {
   turn: 1,
   playerWhoPlay: [],
   playerDead: [],
+  playerOrder: [],
+  isGameOver: false,
+  isGameWin: false,
 
 };
 
@@ -186,80 +189,88 @@ export const fightSlice = createSlice({
         state.players[playerIndex].pv -= damage;
       }
     },
-    checkAllPlayersDead: (state) => {
-      const isAllPlayersDead = state.players.every((player) => player.pv <= 0);
-      if (isAllPlayersDead) {
-        console.log("all players are dead");
-        //Logique équipe dead
-      }
-    },
     checkMonsterIsDead: (state) => {
       if (state.monsters[0].hp <= 0) {
+        state.isGameWin = true;
         console.log("monster is dead");
-        // Logique victoire
       }
     },
     checkPlayerIsAlive: (state) => {
       state.players.forEach((player) => {
         if (player.pv <= 0) {
           player.pv = 0;
+          player.status = "dead";
+          console.log(player.status)
           console.log(`Player ${player.id} is dead`);
         }
       });
     },
+    checkAllPlayersDead: (state) => {
+      const teamId = state.players.find((player) => player.id === state.turn)?.team;
+
+      if (!teamId) return;
+
+      const teamPlayers = state.players.filter((player) => player.team === teamId);
+
+      const isAllPlayersDead = teamPlayers.every((player) => player.pv <= 0);
+
+      if (isAllPlayersDead) {
+        console.log("Tous les joueurs sont morts");
+        state.isGameOver = true;
+        console.log(state.isGameOver);
+      }
+    },
+
+
+    healRandomPlayer: (state, action) => {
+      const { playerId } = action.payload;
+      const player = state.players.find((p) => p.id === playerId);
+    
+      if (player && player.status === "alive") {
+        const teamPlayers = state.players.filter((p) => p.team === player.team && p.status === "alive");
+    
+        if (teamPlayers.length > 0) {
+          const randomPlayerIndex = Math.floor(Math.random() * teamPlayers.length);
+          const randomPlayerId = teamPlayers[randomPlayerIndex].id;
+    
+          state.players = state.players.map((p) => {
+            if (p.id === randomPlayerId) {
+              p.pv += 20;
+    
+              if (p.pv > p.pvMax) {
+                p.pv = p.pvMax;
+              }
+            }
+            return p;
+          });
+        }
+      }
+    },
+    
     nextTurn: (state) => {
-      const currentPlayerIndex = state.players.findIndex(
-        (player) => player.id === state.turn
-      );
+      const currentPlayer = state.players.find((player) => player.id === state.turn);
+      if (!currentPlayer) return;
     
-      let nextPlayerIndex = (currentPlayerIndex + 1) % state.players.length;
-      let nextPlayer = state.players[nextPlayerIndex];
+      const teamId = currentPlayer.team;
+      const teamPlayers = state.players.filter((player) => player.team === teamId);
     
-      // Tant que le joueur suivant est décédé, continuez à avancer dans la liste des joueurs
-      while (nextPlayer.pv <= 0) {
-        nextPlayerIndex = (nextPlayerIndex + 1) % state.players.length;
-        nextPlayer = state.players[nextPlayerIndex];
+      const allDead = teamPlayers.every(player => player.status === 'dead');
+      if (allDead) {
+        console.log("Tous les joueurs de l'équipe sont morts.");
+        state.isGameOver = true;
+        return; 
       }
     
-      // Si le prochain joueur est le premier joueur de l'équipe, revenez au premier joueur actif
-      if ((nextPlayerIndex + 1) % 5 === 0) {
-        nextPlayerIndex = nextPlayerIndex - 4;
-        while (nextPlayerIndex !== currentPlayerIndex) {
-          nextPlayer = state.players[nextPlayerIndex];
-          if (nextPlayer.pv > 0) {
-            break;
-          }
-          nextPlayerIndex = (nextPlayerIndex + 1) % state.players.length;
-        }
+      let nextPlayerIndex = (teamPlayers.findIndex((player) => player.id === state.turn) + 1) % teamPlayers.length;
+      let nextPlayer = teamPlayers[nextPlayerIndex];
+    
+      while (nextPlayer.status !== "alive") {
+        nextPlayerIndex = (nextPlayerIndex + 1) % teamPlayers.length;
+        nextPlayer = teamPlayers[nextPlayerIndex];
       }
     
       state.turn = nextPlayer.id;
       console.log(`Next turn is for player ${nextPlayer.id}`);
-    },
-
-    healRandomPlayer: (state, action) => {
-      const alivePlayers = state.players.filter(
-        (player) => player.status === "alive"
-      );
-      const randomPlayerIndex = Math.floor(Math.random() * alivePlayers.length);
-      alivePlayers[randomPlayerIndex].pv += 20;
-
-      const { playerId } = action.payload;
-      const playerIndex = state.players.findIndex(
-        (player) => player.id === playerId
-      );
-
-      if (playerIndex !== -1) {
-        state.players[playerIndex].mana -= 5;
-      }
-
-      if (
-        alivePlayers[randomPlayerIndex].pv >
-        alivePlayers[randomPlayerIndex].pvMax
-      ) {
-        alivePlayers[randomPlayerIndex].pv =
-          alivePlayers[randomPlayerIndex].pvMax;
-      }
     },
 
     restoreMana: (state, action) => {
@@ -288,6 +299,7 @@ export const fightSlice = createSlice({
       }
     },
     specialJutsu: (state, action) => {
+
       const currentPlayer = state.players.find(
         (player) => player.id === action.payload.playerId
       );
@@ -300,13 +312,6 @@ export const fightSlice = createSlice({
             damage = Math.floor(Math.random() * 90) + 15;
             break;
             case "Sasuke":
-              const audio = new Audio("/assets/chidorii.mp3");
-              audio.play();
-            
-              setTimeout(() => {
-                audio.pause();
-                audio.currentTime = 0;
-              }, 2000);
               damage = Math.floor(Math.random() * 81) + 20;
               break;
           case "Sakura":
@@ -317,13 +322,19 @@ export const fightSlice = createSlice({
               }
             });
             break;
+          case "Kakashi":
+            damage = Math.floor(Math.random() * 71) + 30;
+            break;
+          case "Shikamaru":
+            damage = Math.floor(Math.random() * 61) + 30;
+            break;
           default:
             damage = Math.floor(Math.random() * 56) + 5;
             break;
         }
 
-        state.monsters[0].hp -= damage; // Appliquer les dégâts au monstre
-        currentPlayer.mana -= 30; // Réduire la mana du joueur
+        state.monsters[0].hp -= damage;
+        currentPlayer.mana -= 30; 
       }
     },
     rageAttack: (state, action) => {
@@ -336,10 +347,15 @@ export const fightSlice = createSlice({
         monster.rage = 0;
       }
     },
+    setTurn: (state, action) => {
+      state.turn = action.payload;
+    },
+    setPlayerOrder: (state, action) => {
+      state.playerOrder = action.payload;
+    },
   },
 });
 
-// Supposons que vos joueurs aient un champ `team` pour leur numéro d'équipe
 export const selectPlayersByTeam = (state, teamNumber) => {
   return state.fight.players.filter(
     (player) => player.team === parseInt(teamNumber)
@@ -358,5 +374,7 @@ export const {
   luckyStrike,
   specialJutsu,
   rageAttack,
+  setTurn,
+  setPlayerOrder,
 } = fightSlice.actions;
 export default fightSlice.reducer;

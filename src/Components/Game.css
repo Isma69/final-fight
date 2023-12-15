@@ -5,25 +5,64 @@ html {
 }
 
 .custom-image-size {
-  min-width: 140px; /* Pour conserver les proportions */
+  min-width: 140px;
   min-height: 140px;
-  max-height: 140px; /* Pour conserver les proportions */
+  max-height: 140px;
   max-width: 140px;
-
-  /* Autres styles si nécessaire */
 }
 
 .custom-card-width {
-  width: 75%; /* Définissez la largeur que vous souhaitez */
+  width: 75%; 
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
-
-
 }
 
-/* Body */
+.custom-image-ts {
+  min-width: 150px; 
+  min-height: 150px;
+  max-height: 150px; 
+  max-width: 150px;
+}
+
+.card-ts {
+  min-width: 250px; 
+  min-height: 250px;
+  max-height: 250px; 
+  max-width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cadreTeam {
+  border: #ff0000
+  solid 5px;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 0 10px #000000;
+}
+
+.material-tooltip-main {
+  min-height: 50px;
+  max-height: 50px;
+  min-width: 70px;
+  max-width: 70px;
+}
+.material-tooltip-main1 {
+  min-height: 50px;
+  max-height: 50px;
+  min-width: 90px;
+  max-width: 120px;
+}
+
+
 .App {
   font-family: Arial, sans-serif;
   background-image: url("https://media.hitekno.com/thumbs/2022/01/08/24240-patung-madara-uchiha-dan-hokage-ke-1/730x480-img-24240-patung-madara-uchiha-dan-hokage-ke-1.jpg");
@@ -34,37 +73,36 @@ html {
   min-height: 100%;
   position: absolute;
   top: 0;
-  color: #ffffff; /* Texte en blanc */
+  color: #ffffff; 
 }
 
-/* Header */
+
 header {
-  background-color: #ff4500; /* Orange vif */
+  background-color: #ff4500;
   width: 100%;
   padding: 20px 0;
   box-shadow: 0 0 10px #000000;
 
 }
 
-/* Titre */
 h1 {
   margin-top: 20px;
   font-size: 25px;
   text-align: center;
-  color: #ff0000; /* Blanc */
+  color: #ff0000; 
 }
 
-/* Section Monster */
+
 section.monster-section {
-  background-color: #ff4500; /* Orange vif */
+  background-color: #ff4500; 
   padding: 40px 20px;
 }
 
 button:hover {
-  background-color: #ff6347; /* Rouge clair au survol */
+  background-color: #ff6347;
 }
 
-/* Carte de joueur */
+
 .card {
   background-color: #ca8d30 !important; /* Jaune pâle */
   color: #000000; /* Noir pour le texte */
@@ -73,24 +111,14 @@ button:hover {
   height: 340px !important;;
 }
 
-/* Image du joueur */
+
 .card img {
   width: 100%;
   border-radius: 5px;
 }
 
-
-/* Autres éléments à personnaliser selon vos besoins */
-
-/* Exemple de texte en style Naruto */
-.naruto-text {
-  font-family: 'Naruto', sans-serif; /* Utilisez une police de caractères inspirée de Naruto */
-  font-size: 18px;
-  color: #ffffff; /* Blanc */
-}
-
 .ft {
-  background-color: #ff4500 !important; /* Orange vif */
+  background-color: #ff4500 !important; 
   margin: 0 auto;
   position: absolute;
   bottom: 0;
@@ -117,5 +145,23 @@ margin: 0 auto;
   margin: auto;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Fond sombre pour l'image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Assurez-vous que le z-index est suffisamment élevé pour être au-dessus du reste du contenu */
+}
+
+.fullscreen-modal img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
