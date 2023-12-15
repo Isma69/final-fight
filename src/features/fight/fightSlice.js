@@ -4,8 +4,8 @@ const initialState = {
   players: [
     {
       name: "Naruto",
-      pv: 200,
-      pvMax: 200,
+      pv: 150,
+      pvMax: 150,
       mana: 30,
       manaMax: 30,
       id: 1,
@@ -16,8 +16,8 @@ const initialState = {
     },
     {
       name: "Sasuke",
-      pv: 100,
-      pvMax: 100,
+      pv: 150,
+      pvMax: 150,
       mana: 30,
       manaMax: 30,
       id: 2,
@@ -30,8 +30,8 @@ const initialState = {
       name: "Sakura",
       pv: 100,
       pvMax: 100,
-      mana: 30,
-      manaMax: 30,
+      mana: 40,
+      manaMax: 40,
       id: 3,
       status: "alive",
       avatar: "/assets/sakura1.gif",
@@ -40,8 +40,8 @@ const initialState = {
     },
     {
       name: "Kakashi",
-      pv: 100,
-      pvMax: 100,
+      pv: 120,
+      pvMax: 120,
       mana: 30,
       manaMax: 30,
       id: 4,
@@ -54,8 +54,8 @@ const initialState = {
       name: "Shikamaru",
       pv: 120,
       pvMax: 120,
-      mana: 25,
-      manaMax: 25,
+      mana: 30,
+      manaMax: 30,
       id: 5,
       status: "alive",
       avatar: "/assets/shikamaru.gif",
@@ -66,8 +66,8 @@ const initialState = {
       name: "Choji",
       pv: 140,
       pvMax: 140,
-      mana: 20,
-      manaMax: 20,
+      mana: 30,
+      manaMax: 30,
       id: 6,
       status: "alive",
       avatar: "/assets/choji.gif",
@@ -78,8 +78,8 @@ const initialState = {
       name: "Ino",
       pv: 100,
       pvMax: 100,
-      mana: 30,
-      manaMax: 30,
+      mana: 40,
+      manaMax: 40,
       id: 7,
       status: "alive",
       avatar: "/assets/ino.gif",
@@ -126,8 +126,8 @@ const initialState = {
       name: "Tenten",
       pv: 100,
       pvMax: 100,
-      mana: 30,
-      manaMax: 30,
+      mana: 40,
+      manaMax: 40,
       id: 11,
       status: "alive",
       avatar: "/assets/tenten.gif",
@@ -304,7 +304,7 @@ export const fightSlice = createSlice({
         (player) => player.id === action.payload.playerId
       );
 
-      if (currentPlayer && currentPlayer.mana >= 30) {
+      if (currentPlayer && currentPlayer.mana >= 25) {
         let damage = 0;
 
         switch (currentPlayer.name) {

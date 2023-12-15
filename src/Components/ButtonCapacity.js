@@ -139,8 +139,8 @@ const ButtonCapacity = ({ playerId }) => {
           <button
             type="button"
             onClick={handleSpecialJutsu}
-            className={`btn btn-dark btn-sm material-tooltip-main1 ${isButtonActive(30, playerId) ? '' : 'non-clickable'}`}
-            disabled={!isButtonActive(30, playerId)}
+            className={`btn btn-dark btn-sm material-tooltip-main1 ${isButtonActive(25, playerId) ? '' : 'non-clickable'}`}
+            disabled={!isButtonActive(25, playerId)}
           >
             {currentPlayer.specialJutsu}
           </button>
