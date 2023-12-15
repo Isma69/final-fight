@@ -151,8 +151,8 @@ const initialState = {
     {
       id: 1,
       name: "Madara Uchiwa",
-      hp: 50,
-      maxHp: 50,
+      hp: 400,
+      maxHp: 400,
       status: "alive",
       rage: 0,
       rageMax: 100,

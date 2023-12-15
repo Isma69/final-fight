@@ -8,8 +8,6 @@ import { setPlayerOrder, setTurn } from '../features/fight/fightSlice';
 const TeamSelection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const teamNumber = useSelector(state => state.fight.teamNumber);
-  const state = useSelector(state => state);
 
   useEffect(() => {
     const audio = new Audio('/assets/narutos-theme-song.mp3');
@@ -31,11 +29,10 @@ const TeamSelection = () => {
   
     if (playerOrder.length > 0) {
       dispatch(setPlayerOrder(playerOrder));
-      dispatch(setTurn(playerOrder[0])); // Mettre le tour au premier joueur de l'équipe sélectionnée
+      dispatch(setTurn(playerOrder[0])); 
       navigate(`/combat/${selectedTeamNumber}`);
     } else {
       console.log("Aucun joueur en vie pour l'équipe sélectionnée.");
-      // Gestion d'aucun joueur disponible
     }
   };
 
