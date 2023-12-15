@@ -320,7 +320,10 @@ export const fightSlice = createSlice({
               if (player.pv > player.pvMax) {
                 player.pv = player.pvMax;
               }
-            });
+            },
+            );
+            damage = Math.floor(Math.random() * 71) + 20
+            
             break;
           case "Kakashi":
             damage = Math.floor(Math.random() * 71) + 30;
@@ -328,13 +331,48 @@ export const fightSlice = createSlice({
           case "Shikamaru":
             damage = Math.floor(Math.random() * 61) + 30;
             break;
+          case "Choji":
+            damage = Math.floor(Math.random() * 51) + 30;
+            break;
+          case "Ino":
+            state.players.forEach((player) => {
+              player.pv += 30;
+              if (player.pv > player.pvMax) {
+                player.pv = player.pvMax;
+              }
+            },
+            );
+            damage = Math.floor(Math.random() * 41) + 30;
+            break;
+          case "Asuma":
+            damage = Math.floor(Math.random() * 31) + 30;
+            break;
+          case "Rock Lee":
+            damage = Math.floor(Math.random() * 21) + 30;
+            break;
+          case "Neji":
+            damage = Math.floor(Math.random() * 11) + 30;
+            break;
+          case "Tenten":
+            state.players.forEach((player) => {
+              player.pv += 30;
+              if (player.pv > player.pvMax) {
+                player.pv = player.pvMax;
+              }
+            },
+            );
+            damage = Math.floor(Math.random() * 56) + 5;
+            break;
+          case "Gai":
+            damage = Math.floor(Math.random() * 56) + 5;
+            break;
           default:
             damage = Math.floor(Math.random() * 56) + 5;
             break;
         }
 
         state.monsters[0].hp -= damage;
-        currentPlayer.mana -= 30; 
+        currentPlayer.mana -= 25; 
       }
     },
     rageAttack: (state, action) => {

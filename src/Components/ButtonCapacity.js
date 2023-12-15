@@ -21,7 +21,7 @@ const ButtonCapacity = ({ playerId }) => {
 
   const combat = () => {
     dispatch(hitMonster(5));
-    dispatch(hitBack({ playerId, damage: 10}));
+    dispatch(hitBack({ playerId, damage: 5}));
     dispatch(rageAttack(5));
     dispatch(checkAllPlayersDead());
     dispatch(checkMonsterIsDead());
@@ -71,7 +71,6 @@ const ButtonCapacity = ({ playerId }) => {
 
 
   if (state.isGameOver) {
-    // Afficher l'écran de fin de jeu lorsque le jeu se termine
     return (
       <div className="fullscreen-modal">
         <img src="/assets/gameover.jpeg" alt="All players are dead" />
@@ -80,7 +79,6 @@ const ButtonCapacity = ({ playerId }) => {
   }
 
   if (state.isGameWin) {
-    // Afficher l'écran de fin de jeu lorsque le jeu se termine
     return (
       <div className="fullscreen-modal">
         <img src="/assets/victory.jpg" alt="All players are dead" />

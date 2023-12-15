@@ -21,7 +21,7 @@ const Monster = () => {
                       className="img-fluid"
                       src="/assets/madara.png"
                       alt="monster"
-                      style={{ width: '200px', margin:'20px' }} // Ajout de la largeur
+                      style={{ width: '200px', margin:'20px' }} 
                     />
                   </div>
                 </div>
